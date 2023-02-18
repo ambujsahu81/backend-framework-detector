@@ -1,7 +1,8 @@
-import express from 'express';
-import serverless from 'serverless-http';
-import chromium from 'chrome-aws-lambda';
-import puppeteer from 'puppeteer-core';
+const express = require('express');
+const serverless = require('serverless-http');
+const puppeteer = require('puppeteer-core');
+const chromium = require('@sparticuz/chromium');
+
 
 const app = express();
 const router = express.Router();
@@ -27,10 +28,12 @@ router.get('/frameworkdetector', async (req, res) => {
   if (!isValidHttpUrl(url)) {
     throw new TypeError(`Error: ${url} is not a a valid HTTP URL`);
   }
-  const browser = await chromium.puppeteer.launch({
+  const browser = await puppeteer.launch({
     args: chromium.args,
-    executablePath: process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath,
-    headless: true,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath(),
+    headless: chromium.headless,
+    ignoreHTTPSErrors: true,
   });
   const page = await browser.newPage();
   await page.goto(url);
@@ -246,23 +249,6 @@ router.get('/frameworkdetector', async (req, res) => {
               return false;
           }.toString(),
       },
-      'Drupal': {
-          id: 'drupal',
-          icon: 'drupal',
-          url: 'https://www.drupal.org/',
-          npm: undefined,
-          test: function (win) {
-              const generatorMeta = document.querySelector('meta[name="generator"][content^="Drupal"]');
-              // Detect Drupal resources patterns
-              const resDrupal = /\/sites\/(?:default|all)\/(?:themes|modules|files)/;
-              const res = Array.from(document.querySelectorAll('link,style,script') || []);
-              if (res.some(s => resDrupal.test(s.src)) || res.some(s => resDrupal.test(s.href))
-                  || generatorMeta || (win.Drupal && win.Drupal.behaviors)) {
-                  return { version: undefined };
-              }
-              return false;
-          }.toString(),
-      },
       'Guess.js': {
           id: 'guessjs',
           icon: 'guessjs',
@@ -287,11 +273,12 @@ router.get('/frameworkdetector', async (req, res) => {
                 version: version?.version
             });
         }
-    }
+    }             
+    return frameworkList;
   }   
   );
   await browser.close();
-  res.json(frameworkList);
+  res.send(frameworkList);
 });
 
 app.use('/.netlify/functions/api', router);

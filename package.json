@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "build": "netlify deploy --prod"
   },
@@ -11,12 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chrome-aws-lambda": "^10.1.0",
+    "@sparticuz/chromium": "^110.0.1",
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "netlify-cli": "^12.7.2",
     "netlify-lambda": "^2.0.15",
-    "puppeteer-core": "^19.7.1",
+    "puppeteer-core": "^19.6.0",
     "serverless-http": "^2.7.0"
   }
 }
