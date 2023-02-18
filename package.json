@@ -1,16 +1,18 @@
 {
-  "name": "backenedcode",
+  "name": "backend-framework-detector",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
-  "type": "module",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "netlify deploy --prod"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2",
-    "js-framework-detector": "^1.0.3"
+    "express": "^4.17.1",
+    "netlify-cli": "^12.7.2",
+    "netlify-lambda": "^2.0.15",
+    "serverless-http": "^2.7.0"
   }
 }
