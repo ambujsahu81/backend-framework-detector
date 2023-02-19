@@ -4,7 +4,7 @@ puppeteer implemented with netlify serverless function
 
 ### how to use
 
-https://magenta-vacherin-69155d.netlify.app/.netlify/functions/api/frameworkdetector?url= **paste here any page url**
+https://63f235a5eeaea5715f8d2291--ooogh.netlify.app/.netlify/functions/api/frameworkdetector?url **paste here any page url**
 
 ### Reference
 - [issue](https://github.com/alixaxel/chrome-aws-lambda/issues/154)

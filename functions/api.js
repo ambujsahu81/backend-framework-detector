@@ -2,7 +2,7 @@ const express = require('express');
 const serverless = require('serverless-http');
 const puppeteer = require('puppeteer-core');
 const chromium = require('@sparticuz/chromium');
-
+const cors = require('cors');
 
 const app = express();
 const router = express.Router();
@@ -278,8 +278,12 @@ router.get('/frameworkdetector', async (req, res) => {
   }   
   );
   await browser.close();
-  res.send(frameworkList);
+  res.json(frameworkList);
 });
+
+app.use(cors({
+    origin: '*'
+}));
 
 app.use('/.netlify/functions/api', router);
 module.exports.handler = serverless(app);
